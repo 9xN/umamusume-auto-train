@@ -13,6 +13,16 @@ from core.execute import career_lobby
 import core.state as state
 from server.main import app
 from update_config import update_config
+from utils import updater
+
+# Run update check before starting main logic
+update_status = updater.auto_update(config)
+
+if config.get("check_updates", True):
+    if not update_status["up_to_date"]:
+        print(f"[UPDATE] New version available: {update_status['local']} → {update_status['remote']}")
+        if update_status["updated"]:
+            print("[UPDATE] Auto-updated successfully, please restart the app.")
 
 hotkey = "f1"
 
