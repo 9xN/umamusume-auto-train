@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 
 from server.utils import load_config, save_config
+from utils import updater
 
 app = FastAPI()
 
@@ -33,7 +34,10 @@ async def root_index():
     "Pragma": "no-cache",
     "Expires": "0"
   })
-
+  
+@app.get("/api/update-status")
+def update_status():
+    return updater.get_status()
 @app.get("/{path:path}")
 async def fallback(path: str):
   file_path = os.path.join(PATH, path)
